@@ -1,18 +1,18 @@
 /*
 DATA: 17/04/2024
-NOME DO JOB: [ITAU PJ] - BASE GATILHOS INSERIR:
+NOME DO JOB: [ITAU PJ] - MESA SEM ATUACAO INSERIR
 AUTOR: JOÃO LUIZ - TI
 SOLICITANTE: MICHELI ENKIN
 MOTIVO: AUTOMATIZAR O PROCESSO, ESTAVAMOS FAZENDO MANUALMENTE.
 
-TUTORIAL: extraia o arquivo do .zip e deixe ele com a nomeclatura ( base_gatilho_data.csv ) e execute o job.
+TUTORIAL: extraia o arquivo do .zip e deixe ele com a nomeclatura ( Mesa_sem_atuacao_data.xlsx ) e execute o job.
 
 
 OBS: O SCRIPT ELE BUSCA A PASTA DO EDI ANTES DAS 14:00H NO MODELO (DIA_MES) E DEPOIS DAS 14:00H NO MODELO (DIA_MES_1)
 */
 
 
-use safra_teste;
+use safra;
 
 DECLARE @DIRETORIO				VARCHAR(200)
 DECLARE @COMANDO				VARCHAR(200)
@@ -79,6 +79,7 @@ print @ARQUIVOESCOLHIDO
 
 -- ============================================================================================================
 
+begin try
 		-- Comando para copiar o arquivo usando o comando COPY do Windows
 		SET @COPY = 'COPY ' + @DIRETORIO + '\'+ @ARQUIVOESCOLHIDO + '"  "' + @DESTINO +'"';
 
@@ -87,7 +88,6 @@ print @ARQUIVOESCOLHIDO
 		EXEC xp_cmdshell @COPY;
 
 -- ============================================================================================================ TABELA PARA PEGAR O ARQUIVO
-begin try
 DECLARE @nome_arquivo		varchar(250)	= (@DESTINO + '\' + @ARQUIVOESCOLHIDO)
 DECLARE @OpenRowSet			varchar(max);
 
@@ -108,8 +108,8 @@ Exec (@OpenRowSet)
 
 -- ============================================================================================================ TABELA TRATATIVA
 
-	TRUNCATE TABLE	TBL_MESA_SEM_ATUACAO_INSERIR_TEMP
-	insert INTO TBL_MESA_SEM_ATUACAO_INSERIR_TEMP  -- trocar tabela =======================================================================
+
+	insert INTO TBL_MESA_SEM_ATUACAO_INSERIR 
 				SELECT 
 				RIGHT(CNPJ_COMPLETO, 15)		AS	CNPJ_COMPLETO,
 				''								AS	NOME_CLI,
@@ -124,7 +124,7 @@ Exec (@OpenRowSet)
 
 
 
---SELECT * FROM MESA_SEM_ATAUCAO_IMPORT
+SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR
 --SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR_TEMP
 
 -- ============================================================================================================
@@ -137,9 +137,9 @@ Exec (@OpenRowSet)
 
 	INSERT INTO #temp_email_qtde_entradas_gatilhos (QTDADE_MESA_SEM_ATUACAO)
 		SELECT 
-				COUNT		(ai.CNPJ_COMPLETO)
-				FROM		TBL_MESA_SEM_ATUACAO_INSERIR_TEMP			ai
-				LEFT JOIN	TBL_MESA_SEM_ATUACAO_teste					ma 
+				COUNT		(ai.CNPJ_COMPLETO) as [QTDE DE CASOS]
+				FROM		TBL_MESA_SEM_ATUACAO_INSERIR			ai
+				LEFT JOIN	TBL_MESA_SEM_ATUACAO					ma 
 				ON			ai.CNPJ_COMPLETO						= ma.CNPJ_COMPLETO
 
 
@@ -206,12 +206,14 @@ DECLARE @COMPLEMENTO_NOME		VARCHAR(255);
 			DECLARE @para		VARCHAR(1000)	= '';
 			DECLARE @assunto	VARCHAR(1000)	= 'Mesa sem atuação  - ' + FORMAT(GETDATE(), 'dd/MM/yyyy');
 			DECLARE @mensagem	VARCHAR(MAX)	= '';
-
-
+	
 			SET @para += 'joao.reis@novaquest.com.br;';
-			--SET @para += 'vinicius@novaquest.com.br;';
-			--SET @para += 'micheli@novaquest.com.br';
-			--SET @para += 'sistemas@novaquest.com.br';
+			SET @para += 'vinicius@novaquest.com.br;';
+			SET @para += 'micheli@novaquest.com.br';
+			SET @para += 'sistemas@novaquest.com.br';
+			SET @para += 'marcos.damasceno@novaquest.com.br';
+			SET @para += 'victor.luis@novaquest.com.br';
+			SET @para += 'mariuxa.tiburcio@novaquest.com.br';
 
 			SET @mensagem += '<style type="text/css">';
 			SET @mensagem += 'table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0 5px 0 5px;}';
@@ -255,7 +257,7 @@ begin CATCH
 
 			SET @para1 += 'joao.reis@novaquest.com.br;';
 			SET @para1 += 'vinicius@novaquest.com.br;';
-			--SET @para += 'micheli@novaquest.com.br';
+			SET @para += 'micheli@novaquest.com.br';
 			SET @para1 += 'sistemas@novaquest.com.br';
 
 			SET @mensagem1 += '<style type="text/css">';
