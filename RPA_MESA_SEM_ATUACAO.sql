@@ -141,6 +141,7 @@ SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR
 				FROM		TBL_MESA_SEM_ATUACAO_INSERIR			ai
 				LEFT JOIN	TBL_MESA_SEM_ATUACAO					ma 
 				ON			ai.CNPJ_COMPLETO						= ma.CNPJ_COMPLETO
+				where		ma.CNPJ_COMPLETO is null
 
 
 
@@ -252,7 +253,7 @@ end try
 begin CATCH
 		
 			DECLARE @para1		VARCHAR(1000)	= '';
-			DECLARE @assunto1	VARCHAR(1000)	= 'Mesa sem atuação  - ERRO - TESTE ' + FORMAT(GETDATE(), 'dd/MM/yyyy');
+			DECLARE @assunto1	VARCHAR(1000)	= 'Mesa sem atuação  - ERRO ' + FORMAT(GETDATE(), 'dd/MM/yyyy');
 			DECLARE @mensagem1	VARCHAR(MAX)	= '';
 
 			SET @para1 += 'joao.reis@novaquest.com.br;';
