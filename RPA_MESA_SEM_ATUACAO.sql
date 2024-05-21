@@ -67,7 +67,6 @@ CREATE TABLE #ARQUIVOS
 INSERT INTO #ARQUIVOS
 EXEC xp_cmdshell	@comando 
 
-
 SET @ARQUIVOESCOLHIDO = (
 							SELECT 
 									NOMEARQUIVO 
@@ -108,8 +107,9 @@ Exec (@OpenRowSet)
 
 -- ============================================================================================================ TABELA TRATATIVA
 
+	TRUNCATE TABLE	TBL_MESA_SEM_ATUACAO_INSERIR;
 
-	insert INTO TBL_MESA_SEM_ATUACAO_INSERIR 
+	insert INTO	TBL_MESA_SEM_ATUACAO_INSERIR 
 				SELECT 
 				RIGHT(CNPJ_COMPLETO, 15)		AS	CNPJ_COMPLETO,
 				''								AS	NOME_CLI,
@@ -124,7 +124,7 @@ Exec (@OpenRowSet)
 
 
 
-SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR
+--SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR
 --SELECT * FROM TBL_MESA_SEM_ATUACAO_INSERIR_TEMP
 
 -- ============================================================================================================
@@ -209,12 +209,12 @@ DECLARE @COMPLEMENTO_NOME		VARCHAR(255);
 			DECLARE @mensagem	VARCHAR(MAX)	= '';
 	
 			SET @para += 'joao.reis@novaquest.com.br;';
-			SET @para += 'vinicius@novaquest.com.br;';
-			SET @para += 'micheli@novaquest.com.br';
-			SET @para += 'sistemas@novaquest.com.br';
-			SET @para += 'marcos.damasceno@novaquest.com.br';
-			SET @para += 'victor.luis@novaquest.com.br';
-			SET @para += 'mariuxa.tiburcio@novaquest.com.br';
+			SET @para += 'vinicius@novaquest.com.br;'
+			SET @para += 'micheli@novaquest.com.br;';
+			SET @para += 'sistemas@novaquest.com.br;';
+			SET @para += 'marcos.damasceno@novaquest.com.br;';
+			SET @para += 'victor.luis@novaquest.com.br;';
+			SET @para += 'mariuxa.tiburcio@novaquest.com.br;';
 
 			SET @mensagem += '<style type="text/css">';
 			SET @mensagem += 'table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0 5px 0 5px;}';
@@ -258,8 +258,8 @@ begin CATCH
 
 			SET @para1 += 'joao.reis@novaquest.com.br;';
 			SET @para1 += 'vinicius@novaquest.com.br;';
-			SET @para += 'micheli@novaquest.com.br';
-			SET @para1 += 'sistemas@novaquest.com.br';
+			SET @para1 += 'micheli@novaquest.com.br;';
+			SET @para1 += 'sistemas@novaquest.com.br;';
 
 			SET @mensagem1 += '<style type="text/css">';
 			SET @mensagem1 += 'table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0 5px 0 5px;}'
