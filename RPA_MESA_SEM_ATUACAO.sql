@@ -71,7 +71,7 @@ SET @ARQUIVOESCOLHIDO = (
 							SELECT 
 									NOMEARQUIVO 
 							FROM	#ARQUIVOS	
-							WHERE	NOMEARQUIVO LIKE	'%Mesa_sem_atuacao%'
+							WHERE	NOMEARQUIVO LIKE	'%Mesa_sem%'
 							and		NOMEARQUIVO LIKE	'%' + @DIA + '%' + SUBSTRING(@MES, 1, 2) + '%' + @ANO + '%'
 						)
 print @ARQUIVOESCOLHIDO
@@ -209,12 +209,13 @@ DECLARE @COMPLEMENTO_NOME		VARCHAR(255);
 			DECLARE @mensagem	VARCHAR(MAX)	= '';
 	
 			SET @para += 'joao.reis@novaquest.com.br;';
-			SET @para += 'vinicius@novaquest.com.br;'
+			SET @para += 'vinicius@novaquest.com.br;';
 			SET @para += 'micheli@novaquest.com.br;';
 			SET @para += 'sistemas@novaquest.com.br;';
 			SET @para += 'marcos.damasceno@novaquest.com.br;';
 			SET @para += 'victor.luis@novaquest.com.br;';
 			SET @para += 'mariuxa.tiburcio@novaquest.com.br;';
+			SET @para += 'everton.santos@novaquest.com.br;';
 
 			SET @mensagem += '<style type="text/css">';
 			SET @mensagem += 'table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0 5px 0 5px;}';
